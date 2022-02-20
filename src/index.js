@@ -75,8 +75,14 @@ class Game extends Component {
 		}
 	}
 
-	currentTurn() {
+	currentTurn () {
 		return this.state.isXNext ? 'X' : 'O'
+	}
+
+	currentSquares() {
+		const { history } = this.state
+		const { squares } = history[history.length - 1]
+		return squares
 	}
 
 	winner(squares) {
@@ -84,22 +90,20 @@ class Game extends Component {
 	}
 
 	handleClick(i) {
-		const { history } = this.state
-		const current = history[history.length - 1]
-		const squares = current.squares.slice()
+		const squares = this.currentSquares().slice()
 
 		if (squares[i]) { return }
 		if (this.winner(squares)) { return }
 
 		squares[i] = this.currentTurn()
 		this.setState({
-			history: history.concat([{ squares }]),
+			history: this.state.history.concat([{ squares }]),
 			isXNext: !this.state.isXNext,
 		})
 	}
 
 	render() {
-		const { squares } = this.state.history[this.state.history.length - 1]
+		const squares = this.currentSquares()
 		const status = this.winner(squares)
 			? `Winner: ${this.winner(squares)}`
 			: `Next player: ${this.state.isXNext ? 'X' : 'O' }`
