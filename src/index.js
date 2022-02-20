@@ -75,14 +75,14 @@ class Game extends Component {
 		}
 	}
 
-	currentTurn () {
-		return this.state.isXNext ? 'X' : 'O'
-	}
-
 	currentSquares() {
 		const { history } = this.state
 		const { squares } = history[history.length - 1]
 		return squares
+	}
+
+	currentTurn () {
+		return this.state.isXNext ? 'X' : 'O'
 	}
 
 	winner(squares) {
