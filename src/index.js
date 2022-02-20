@@ -85,15 +85,15 @@ class Game extends Component {
 		return this.state.isXNext ? 'X' : 'O'
 	}
 
-	winner(squares) {
+	currentWinner() {
+		const squares = this.currentSquares()
 		return calculateWinner(squares)
 	}
 
 	handleClick(i) {
-		const squares = this.currentSquares().slice()
+		const squares = this.currentSquares().slice() // * Make a clone
 
 		if (squares[i]) { return }
-		if (this.winner(squares)) { return }
 
 		squares[i] = this.currentTurn()
 		this.setState({
@@ -103,17 +103,19 @@ class Game extends Component {
 	}
 
 	render() {
-		const squares = this.currentSquares()
-		const status = this.winner(squares)
-			? `Winner: ${this.winner(squares)}`
-			: `Next player: ${this.state.isXNext ? 'X' : 'O' }`
+		const status = this.currentWinner()
+			? `Winner: ${this.currentWinner()}`
+			: `Next player: ${this.currentTurn()}`
 
 		return (
 			<div className='game'>
 				<div className='game-board'>
 					<Board
-					squares={squares}
-					onClick={(i) => this.handleClick(i)}
+					squares={this.currentSquares()}
+					onClick={(i) => this.currentWinner()
+						? {}
+						: this.handleClick(i)
+					}
 					/>
 				</div>
 				<div className='game-info'>
