@@ -107,6 +107,20 @@ class Game extends Component {
 			? `Winner: ${this.currentWinner()}`
 			: `Next player: ${this.currentTurn()}`
 
+		const moves = this.state.history.map((squres, i) => {
+			const description = i === 0
+				? 'Go to game start'
+				: `Go to move ${i}`
+			const key = this.state.history[i].squares.join('-')
+			return (
+				<li key={key}>
+					<button>
+						{description}
+					</button>
+				</li>
+			)
+		})
+
 		return (
 			<div className='game'>
 				<div className='game-board'>
@@ -120,7 +134,7 @@ class Game extends Component {
 				</div>
 				<div className='game-info'>
 					<div>{status}</div>
-					<ol>{/* TODO */}</ol>
+					<ol>{moves}</ol>
 				</div>
 			</div>
 		)
