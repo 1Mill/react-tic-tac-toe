@@ -48,6 +48,8 @@ class Board extends Component {
 	}
 
 	handleClick(i) {
+		if (this.state.squares[i]) { return }
+
 		const squares = this.state.squares.slice()
 		squares[i] = this.currentSymbol()
 		this.setState({
