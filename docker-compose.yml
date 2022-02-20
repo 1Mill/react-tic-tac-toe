@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  node:
+    image: node:16-alpine
+    environment:
+      HOST: 0.0.0.0
+      NODE_ENV: development
+      PORT: 8080
+    ports:
+      - 8080:8080
+    volumes:
+      - ./src:/app
+    working_dir: /app
