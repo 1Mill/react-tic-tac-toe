@@ -39,6 +39,7 @@ class Board extends Component {
 		this.state = {
 			isXNext: true,
 			squares: Array(9).fill(null),
+			winner: null,
 		}
 	}
 
@@ -52,6 +53,7 @@ class Board extends Component {
 		this.setState({
 			isXNext: !this.state.isXNext,
 			squares,
+			winner: calculateWinner(squares),
 		})
 	}
 
@@ -65,9 +67,8 @@ class Board extends Component {
 	}
 
 	render() {
-		const winnerSymbol = calculateWinner(this.state.squares)
-		const status = winnerSymbol
-			? `Winner: ${winnerSymbol}`
+		const status = this.state.winner
+			? `Winner: ${this.state.winner}`
 			: `Next player: ${this.currentSymbol()}`
 
 		return (
