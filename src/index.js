@@ -72,12 +72,12 @@ class Game extends Component {
 		this.state = {
 			history: [{ squares: Array(9).fill(null) }],
 			isXNext: true,
+			stepNumber: 1,
 		}
 	}
 
 	currentSquares() {
-		const { history } = this.state
-		const { squares } = history[history.length - 1]
+		const { squares } = this.state.history[this.state.stepNumber - 1]
 		return squares
 	}
 
@@ -90,15 +90,24 @@ class Game extends Component {
 		return calculateWinner(squares)
 	}
 
+	jumpTo(number) {
+		this.setState({
+			isXNext: (number % 2) === 0,
+			stepNumber: number,
+		})
+	}
+
 	handleClick(i) {
-		const squares = this.currentSquares().slice() // * Make a clone
+		const history = this.state.history.slice(0, this.state.stepNumber)
+		const squares = history[history.length - 1].squares.slice()
 
 		if (squares[i]) { return }
 
 		squares[i] = this.currentTurn()
 		this.setState({
-			history: this.state.history.concat([{ squares }]),
+			history: history.concat([{ squares }]),
 			isXNext: !this.state.isXNext,
+			stepNumber: history.length + 1,
 		})
 	}
 
@@ -114,7 +123,7 @@ class Game extends Component {
 			const key = this.state.history[i].squares.join('-')
 			return (
 				<li key={key}>
-					<button>
+					<button onClick={() => this.jumpTo(i + 1)}>
 						{description}
 					</button>
 				</li>
