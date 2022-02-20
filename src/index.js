@@ -17,14 +17,22 @@ class Board extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			squares: Array(9).fill(null)
+			isXNext: true,
+			squares: Array(9).fill(null),
 		}
+	}
+
+	currentSymbol() {
+		return this.state.isXNext ? 'X' : 'O'
 	}
 
 	handleClick(i) {
 		const squares = this.state.squares.slice()
-		squares[i] = 'X'
-		this.setState({ squares })
+		squares[i] = this.currentSymbol()
+		this.setState({
+			isXNext: !this.state.isXNext,
+			squares,
+		})
 	}
 
 	renderSquare(i) {
@@ -37,7 +45,7 @@ class Board extends Component {
 	}
 
 	render() {
-		const status = 'Next player: X'
+		const status = `Next player: ${this.currentSymbol()}`
 
 		return (
 			<div>
